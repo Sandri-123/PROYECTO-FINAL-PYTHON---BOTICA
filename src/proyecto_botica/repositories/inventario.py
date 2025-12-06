@@ -29,7 +29,7 @@ class IRepositorio(ABC):
     def eliminar(self, id_producto: int) -> bool:
         """Elimina un producto."""
         pass
-    
+
 class RepositorioMemoria(IRepositorio):
     """
     Implementacion del repositorio en memoria.
@@ -46,3 +46,19 @@ class RepositorioMemoria(IRepositorio):
             raise ValueError(f"El producto con ID {producto.id_producto} ya existe")
         self._productos[producto.id_producto] = producto
         return True
+    
+    
+    def obtener(self, id_producto: int) -> Optional[Producto]:
+        """Obtiene un producto por ID."""
+        return self._productos.get(id_producto)
+
+    def obtener_todos(self) -> List[Producto]:
+        """Obtiene todos los productos."""
+        return list(self._productos.values())
+
+    def eliminar(self, id_producto: int) -> bool:
+        """Elimina un producto del repositorio."""
+        if id_producto in self._productos:
+            del self._productos[id_producto]
+            return True
+        return False
