@@ -29,3 +29,20 @@ class IRepositorio(ABC):
     def eliminar(self, id_producto: int) -> bool:
         """Elimina un producto."""
         pass
+    
+class RepositorioMemoria(IRepositorio):
+    """
+    Implementacion del repositorio en memoria.
+    Almacena productos en un diccionario (key=id_producto).
+    """
+
+    def __init__(self):
+        """Inicializa el almacenamiento en memoria."""
+        self._productos: Dict[int, Producto] = {}
+
+    def agregar(self, producto: Producto) -> bool:
+        """Agrega un producto al repositorio."""
+        if producto.id_producto in self._productos:
+            raise ValueError(f"El producto con ID {producto.id_producto} ya existe")
+        self._productos[producto.id_producto] = producto
+        return True
