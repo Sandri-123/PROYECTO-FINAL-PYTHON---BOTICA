@@ -78,3 +78,20 @@ class Inventario:
     def __init__(self, repositorio: IRepositorio):
         """Inicializa el inventario con un repositorio inyectado."""
         self.repositorio = repositorio
+
+    def agregar_producto(self, nombre: str, descripcion: str, precio: float,
+                         cantidad: int, categoria: Categoria) -> Producto:
+        """Agrega un nuevo producto al inventario."""
+        producto = Producto(nombre, descripcion, precio, cantidad, categoria)
+        self.repositorio.agregar(producto)
+        return producto
+
+    def aumentar_stock(self, id_producto: int, cantidad: int) -> bool:
+        """Aumenta el stock de un producto."""
+        producto = self.repositorio.obtener(id_producto)
+        if not producto:
+            raise ValueError(f"Producto con ID {id_producto} no existe")
+        
+        producto.actualizar_cantidad(producto.cantidad + cantidad)
+        return True
+        
