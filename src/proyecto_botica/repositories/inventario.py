@@ -62,3 +62,19 @@ class RepositorioMemoria(IRepositorio):
             del self._productos[id_producto]
             return True
         return False
+    
+
+    def obtener_por_categoria(self, categoria: Categoria) -> List[Producto]:
+        """Obtiene productos por categoria. (Método específico de la implementación)."""
+        return [p for p in self._productos.values() if p.categoria == categoria]
+
+
+class Inventario:
+    """
+    Gestor del inventario de productos.
+    Implementa la lógica de negocio (usa la Interfaz IRepositorio).
+    """
+
+    def __init__(self, repositorio: IRepositorio):
+        """Inicializa el inventario con un repositorio inyectado."""
+        self.repositorio = repositorio
