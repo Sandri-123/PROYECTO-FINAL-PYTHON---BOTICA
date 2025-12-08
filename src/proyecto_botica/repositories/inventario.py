@@ -94,4 +94,20 @@ class Inventario:
         
         producto.actualizar_cantidad(producto.cantidad + cantidad)
         return True
+
+    def disminuir_stock(self, id_producto: int, cantidad: int) -> bool:
+        """Disminuye el stock de un producto (simula venta)."""
+        producto = self.repositorio.obtener(id_producto)
+        if not producto:
+            raise ValueError(f"Producto con ID {id_producto} no existe")
+
+        if producto.cantidad < cantidad:
+            raise ValueError(f"Stock insuficiente. Disponible: {producto.cantidad}")
+
+        producto.actualizar_cantidad(producto.cantidad - cantidad)
+        return True
+
+    def obtener_productos_bajo_stock(self, limite: int = 10) -> List[Producto]:
+        """Obtiene productos con stock bajo (cantidad <= limite)."""
+        return [p for p in self.repositorio.obtener_todos() if p.cantidad <= limite]
         
